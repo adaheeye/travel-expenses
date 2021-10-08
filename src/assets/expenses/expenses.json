@@ -1,0 +1,164 @@
+[
+  {
+    "id": 0,
+    "activityName": "Gas #1",
+    "activityDate": "2021-10-1",
+    "amount": 87.55,
+    "paidBy": "Awaleh",
+    "owedBy": ["All"],
+    "details": ""
+  },
+  {
+    "id": 1,
+    "activityName": "Gas #2",
+    "activityDate": "2021-10-2",
+    "amount": 48,
+    "paidBy": "Awaleh",
+    "owedBy": ["All"],
+    "details": ""
+  },
+  {
+    "id": 2,
+    "activityName": "Gas #3",
+    "activityDate": "2021-10-3",
+    "amount": 74.66,
+    "paidBy": "Awaleh",
+    "owedBy": ["All"],
+    "details": ""
+  },
+  {
+    "id": 3,
+    "activityName": "Car rent",
+    "activityDate": "2021-10-1",
+    "amount": 392.60,
+    "paidBy": "Awaleh",
+    "owedBy": ["All"],
+    "details": ""
+  },
+  {
+    "id": 4,
+    "activityName": "Hotel room 1",
+    "activityDate": "2021-10-1",
+    "amount": 224.60,
+    "paidBy": "Umalkhair",
+    "owedBy": ["Umalkhair","Abdirahim"],
+    "details": ""
+  },
+  {
+    "id": 5,
+    "activityName": "Hotel room 2",
+    "activityDate": "2021-10-1",
+    "amount": 224.60,
+    "paidBy": "Marwo",
+    "owedBy": ["Marwo","Awaleh"],
+    "details": ""
+  },
+  {
+    "id": 6,
+    "activityName": "NIAGARA Boat ride",
+    "activityDate": "2021-10-2",
+    "amount": 70.63,
+    "paidBy": "Awaleh",
+    "owedBy": ["Awaleh", "Abdirahim"],
+    "details": ""
+  },
+  {
+    "id": 7,
+    "activityName": "Sahan - food",
+    "activityDate": "2021-10-1",
+    "amount": 41.97,
+    "paidBy": "Awaleh",
+    "owedBy": ["Awaleh", "Umalkhair", "Marwo"],
+    "details": "Abdirahim paid already. He sent 25$ to Awaleh"
+  },
+  {
+    "id": 8,
+    "activityName": "NIAGARA parking",
+    "activityDate": "2021-10-2",
+    "amount": 30,
+    "paidBy": "Awaleh",
+    "owedBy": ["Awaleh", "Abdirahim"],
+    "details": ""
+  },
+  {
+    "id": 9,
+    "activityName": "Clock clocks - food",
+    "activityDate": "2021-10-3",
+    "amount": 18.07,
+    "paidBy": "Awaleh",
+    "owedBy": ["Awaleh", "Abdirahim"],
+    "details": ""
+  },
+  {
+    "id": 10,
+    "activityName": "NIAGARA - Drinks bought in NIAGARA",
+    "activityDate": "2021-10-2",
+    "amount": 6,
+    "paidBy": "Awaleh",
+    "owedBy": ["Awaleh", "Abdirahim"],
+    "details": "Drinks"
+  },
+  {
+    "id": 11,
+    "activityName": "SVP store",
+    "activityDate": "2021-10-1",
+    "amount": 260,
+    "paidBy": "Abdirahim",
+    "owedBy": ["Awaleh"],
+    "details": "Drinks"
+  },
+  {
+    "id": 12,
+    "activityName": "NIAGARA - Ice creams bought in NIAGARA",
+    "activityDate": "2021-10-2",
+    "amount": 15,
+    "paidBy": "Abdirahim",
+    "owedBy": ["Abdirahim","Awaleh"],
+    "details": "Ice creams"
+  },
+  {
+    "id": 13,
+    "activityName": "NIAGARA - The haunted House",
+    "activityDate": "2021-10-2",
+    "amount": 31.60,
+    "paidBy": "Abdirahim",
+    "owedBy": ["Abdirahim","Awaleh"],
+    "details": ""
+  },
+  {
+    "id": 14,
+    "activityName": "NIAGARA - Skywheel",
+    "activityDate": "2021-10-2",
+    "amount": 31.64,
+    "paidBy": "Abdirahim",
+    "owedBy": ["Abdirahim","Awaleh"],
+    "details": ""
+  },
+  {
+    "id": 15,
+    "activityName": "NIAGARA falls - Digital pictures",
+    "activityDate": "2021-10-2",
+    "amount": 45,
+    "paidBy": "Abdirahim",
+    "owedBy": ["Abdirahim","Awaleh"],
+    "details": ""
+  },
+  {
+    "id": 16,
+    "activityName": "Mushkaki - food",
+    "activityDate": "2021-10-2",
+    "amount": 15.26,
+    "paidBy": "Abdirahim",
+    "owedBy": ["Umalkhair","Marwo"],
+    "details": ""
+  },
+  {
+    "id": 17,
+    "activityName": "Hotel parking",
+    "activityDate": "2021-10-1",
+    "amount": 15.26,
+    "paidBy": "Marwo",
+    "owedBy": ["All"],
+    "details": ""
+  }
+]

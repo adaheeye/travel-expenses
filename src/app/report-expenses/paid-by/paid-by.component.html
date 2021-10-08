@@ -1,0 +1,58 @@
+<div class="container content">
+  <div class="jumbotron header" *ngIf="!passToComponent">
+    <h1><a routerLink="/">Expenses report activities</a></h1>
+  </div>
+  <h1 class="title-report">Activities/food paid by {{selectedTraveler}}</h1>
+  <div class="report">
+    <table class="table" *ngIf="!!expenses.length">
+      <tr>
+        <th>
+          <span>Activity name</span>
+        </th>
+        <th>
+          <span>Amount paid</span>
+        </th>
+        <th>
+          <span>Amount minus your part /<br>Amount they owe you</span>
+        </th>
+        <th>
+          <span>Paid by</span>
+        </th>
+        <th>
+          <span>Owed by</span>
+        </th>
+        <th>
+          <span>Activity date</span>
+        </th>
+      </tr>
+      <ng-container *ngFor="let expense of expenseWithOwedAmounts">
+        <tr>
+          <td>
+            <a (click)="openLink(expense)">{{expense.activityName}}</a>
+          </td>
+          <td>
+            <span>{{expense.amount | currency: 'CAD':'symbol-narrow':'1.2-2': 'en' }}</span>
+          </td>
+          <td>
+            <span>{{expense.expensesWithOwedAmount | currency: 'CAD':'symbol-narrow':'1.2-2': 'en' }}</span>
+          </td>
+          <td>
+            <span class="font-weight-bold">{{expense.paidBy}}</span>
+          </td>
+          <td>
+            <span *ngIf="expense.owedBy">{{expense.owedBy.join(', ')}}</span>
+          </td>
+          <td>
+            <span>{{expense.activityDate}}</span>
+          </td>
+        </tr>
+      </ng-container>
+    </table>
+    <div class="my-3">
+      <h3 class="total">Total spent amount {{selectedTraveler}} made is <span class="font-weight-bold">{{totalPaidAmount | currency: 'CAD':'symbol-narrow':'1.2-2': 'en'}}</span></h3>
+    </div>
+    <div class="my-3">
+      <h3 class="total">Total amount they owe {{selectedTraveler}}:  <span class="font-weight-bold">{{totalExpensesWithOwedAmount | currency: 'CAD':'symbol-narrow':'1.2-2': 'en'}}</span></h3>
+    </div>
+  </div>
+</div>
