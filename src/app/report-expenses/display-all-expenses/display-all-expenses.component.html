@@ -1,6 +1,6 @@
 <div class="container content">
   <div class="jumbotron header">
-    <h1><a routerLink="/">Expenses report activities</a></h1>
+    <h1><a routerLink="/">Expenses report</a></h1>
   </div>
   <h1 class="title-report">Displaying the final calculated expenses</h1>
   <div class="report">
@@ -14,8 +14,9 @@
     </ng-container>
     <hr>
     <div class="mt-5 mb-3 report-calculation" *ngIf="!!expenseWithDetailsMap.size">
-      <span>After adding all the above expenses amount. It should be equals to </span>
-      <span class="font-weight-bold ml-1">$0</span>
+      <span>After adding all the above expenses amounts. It should be equals to </span>
+      <span class="font-weight-bold mr-1">$0</span>
+      <span>in order the calculations to be valid.</span>
       <br><br>
       <span>The sum of the above numbers is: </span>
       <span class="font-weight-bold ml-1">{{expensesSum | currency: 'CAD':'symbol-narrow':'1.2-2': 'en' }}</span>
