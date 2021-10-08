@@ -120,7 +120,7 @@
             <span *ngIf="expense.owedBy">{{expense.owedBy.join(', ')}}</span>
           </td>
           <td>
-            <span *ngIf="expense && expense?.details?.length"><i class="fas fa-comment-alt" [matTooltip]="expense.details"></i></span>
+            <span *ngIf="expense && expense?.details?.length"><i class="fas fa-comment-alt" [matTooltip]="expense.details || ''"></i></span>
           </td>
         </tr>
       </ng-container>

@@ -24,6 +24,9 @@
         <th>
           <span>Activity date</span>
         </th>
+        <th>
+          <span>Has a note?</span>
+        </th>
       </tr>
       <ng-container *ngFor="let expense of expenseWithOwedAmounts">
         <tr>
@@ -44,6 +47,9 @@
           </td>
           <td>
             <span>{{expense.activityDate}}</span>
+          </td>
+          <td>
+            <span *ngIf="expense && expense.details?.length"><i class="fas fa-comment-alt" [matTooltip]="expense.details || ''"></i></span>
           </td>
         </tr>
       </ng-container>
