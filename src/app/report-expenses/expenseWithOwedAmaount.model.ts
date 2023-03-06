@@ -1,10 +1,12 @@
+import {Traveler} from "./traveler.model";
+
 export class ExpenseWithOwedAmount {
-  public id?: number;
+  public id?: string;
   public activityName: string = '';
   public activityDate?: string;
   public amount: number = 0;
-  public paidBy: string = '';
-  public owedBy: string[] = [];
+  public paidBy: Traveler;
+  public owedBy: Traveler[] = [];
   public details?: string;
   public expensesWithOwedAmount: number = 0;
 }

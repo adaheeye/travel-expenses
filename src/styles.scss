@@ -1,4 +1,32 @@
 /* You can add global styles to this file, and also import other style files */
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html, body, h1, h2, h3, h4, h5, h6 {
+    height: 100%;
+    font-family: 'Prompt', sans-serif !important;
+}
+
+body {
+    margin: 0;
+}
+
+.jumbotron {
+  background-color: rgba(0, 0, 0, 0.2);
+  padding: 40px;
+}
+
+report-expenses {
+    mat-slide-toggle label {
+        margin-top: 5px;
+    }
+
+    mat-label, span.mdc-button__label  {
+        font-family: 'Prompt', sans-serif !important;
+        letter-spacing: normal;
+    }
+}
+
+button {
+  outline: 0 !important;
+}
+
+

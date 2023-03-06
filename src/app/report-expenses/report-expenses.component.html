@@ -4,11 +4,8 @@
   </div>
   <div class="filter mb-3">
     <div class="row">
-      <div class="col-10">
+      <div class="col-12">
         <h2>Filter expenses</h2>
-      </div>
-      <div class="col-2 p-0">
-        <h2><a routerLink="zipline">Enjoy this video</a></h2>
       </div>
     </div>
 
@@ -18,16 +15,19 @@
           <mat-label>Paid by only</mat-label>
           <mat-select class="ml-2" placeholder="Paid by only"
                       matTooltip="Paid by only"
+                      [matTooltipShowDelay]="1000"
                       [(ngModel)]="selectedPaidBy">
-            <mat-option *ngFor="let traveler of travelers" [value]="traveler">
-              {{traveler}}
+            <mat-option *ngFor="let traveler of travelers" [value]="traveler.firstName">
+              {{traveler.firstName}} {{traveler.lastName}}
             </mat-option>
           </mat-select>
         </mat-form-field>
       </div>
       <div class="col-2 p-0">
-        <button [disabled]="!selectedPaidBy.length" mat-raised-button color="primary"
+        <button class="w-100" [disabled]="!selectedPaidBy || travelers.length < 1"
+                mat-raised-button color="primary"
                 matTooltip="Filter by paid by only"
+                [matTooltipShowDelay]="1000"
                 (click)="navigateToPaidByPage()">Filter by paid by</button>
       </div>
     </div>
@@ -37,6 +37,7 @@
           <mat-label>Owed by only</mat-label>
           <mat-select class="ml-2" placeholder="Owed by only"
                       matTooltip="Owed by only"
+                      [matTooltipShowDelay]="1000"
                       [(ngModel)]="selectedOwedBy">
             <mat-option *ngFor="let traveler of travelers" [value]="traveler">
               {{traveler}}
@@ -45,8 +46,10 @@
         </mat-form-field>
       </div>
       <div class="col-2 p-0">
-        <button [disabled]="!selectedOwedBy.length" mat-raised-button color="primary"
+        <button class="w-100" [disabled]="!selectedOwedBy || travelers.length < 1"
+                mat-raised-button color="primary"
                 matTooltip="Filter by owed by only"
+                [matTooltipShowDelay]="1000"
                 (click)="navigateToOwedByPage()">Filter by owed by</button>
       </div>
     </div>
@@ -56,32 +59,55 @@
           <mat-label>Paid by & Owed by</mat-label>
           <mat-select class="ml-2" placeholder="Owed by"
                       matTooltip="Owed by"
+                      [matTooltipShowDelay]="1000"
                       [(ngModel)]="selectedBothPaidByAndOwedBy">
-            <mat-option *ngFor="let traveler of travelers" [value]="traveler">
-              {{traveler}}
+            <mat-option *ngFor="let traveler of travelers" [value]="traveler._id">
+              {{traveler.firstName + ' ' + traveler.lastName}}
             </mat-option>
           </mat-select>
         </mat-form-field>
       </div>
       <div class="col-2 p-0">
-        <button [disabled]="!selectedBothPaidByAndOwedBy.length" mat-raised-button color="primary"
+        <button class="w-100" [disabled]="!selectedBothPaidByAndOwedBy || travelers.length < 1"
+                mat-raised-button color="primary"
                 matTooltip="Filter by both paidBy and owedBy"
+                [matTooltipShowDelay]="1000"
                 (click)="navigateToBothPaidAndOwedPage()">Filter by both</button>
       </div>
     </div>
     <div class="row">
       <div class="col-10">
+        <mat-slide-toggle
+          class="float-right"
+          [color]="'primary'"
+          [(ngModel)]="isPayeeExcluded"
+          (ngModelChange)="load()">
+          Exclude payee from owee column
+        </mat-slide-toggle>
       </div>
       <div class="col-2 p-0">
-        <button mat-raised-button color="primary"
+        <button [disabled]="travelers.length < 1"
+                mat-raised-button color="primary"
                 matTooltip="Display final expenses"
+                [matTooltipShowDelay]="1000"
+                class="expenses"
                 (click)="navigateToDisplayAllPage()">Display calculated expenses</button>
       </div>
     </div>
-
+  </div>
+  <div>
+    <button class="float-right add-activity" mat-raised-button color="primary"
+            matTooltip="Add activity"
+            [matTooltipShowDelay]="1000"
+            [disabled]="travelers.length < 1"
+            (click)="addActivity()">Add activity</button>
+    <button class="float-right mr-1" mat-raised-button color="primary"
+            matTooltip="Add traveler"
+            [matTooltipShowDelay]="1000"
+            (click)="addTraveler()">Add traveler</button>
   </div>
   <div class="report">
-    <table class="table" *ngIf="!!expenses.length">
+    <table class="table" *ngIf="!!activities.length">
       <tr>
         <th>
           <span>Activity name</span>
@@ -93,34 +119,59 @@
           <span>Activity date</span>
         </th>
         <th>
-          <span>Paid by</span>
+          <span>Payee</span>
         </th>
         <th>
-          <span>Owed by</span>
+          <span>Owee</span>
         </th>
         <th>
           <span>Has a note?</span>
         </th>
+        <th>
+        </th>
       </tr>
-      <ng-container *ngFor="let expense of expenses">
+      <ng-container *ngFor="let activity of activities">
         <tr>
-          <td>
-            <a routerLink="display-expense/{{expense.id}}">{{expense.activityName}}</a>
+          <td style="width: 20%">
+            <a routerLink="display-expense/{{activity?._id}}">{{activity.activityName}}</a>
           </td>
-          <td>
-            <span>{{expense.amount | currency: 'CAD':'symbol-narrow':'1.2-2': 'en' }}</span>
+          <td style="width: 10%">
+            <span>{{activity.amount | currency: 'CAD':'symbol-narrow':'1.2-2': 'en' }}</span>
           </td>
-          <td>
-            <span>{{expense.activityDate}}</span>
+          <td style="width: 15%">
+            <span>{{activity.activityDate | date:'longDate'}}</span>
           </td>
-          <td>
-            <span>{{expense.paidBy}}</span>
+          <td style="width: 10%">
+            <span>{{activity.paidBy.firstName | titlecase}}</span>
           </td>
-          <td>
-            <span *ngIf="expense.owedBy">{{expense.owedBy.join(', ')}}</span>
+          <td style="width: 25%">
+            <span *ngIf="activity.owedBy">{{getOwedBy(activity.owedBy)}}</span>
           </td>
-          <td>
-            <span *ngIf="expense && expense?.details?.length"><i class="fas fa-comment-alt" [matTooltip]="expense.details || ''"></i></span>
+          <td style="width: 10%">
+            <span *ngIf="activity && activity?.details?.length" class="action">
+              <i class="fas fa-comment-alt"
+                 [matTooltip]="activity.details || ''"
+                 [matTooltipShowDelay]="1000"
+                 [matTooltipPosition]="'above'"></i></span>
+          </td>
+          <td style="width: 10%">
+            <div class="action">
+              <span *ngIf="activity" (click)="viewActivity(activity?._id)">
+                <i class="mr-2 fa-solid fa-eye"
+                   [matTooltip]="'View activity'"
+                   [matTooltipShowDelay]="1000"
+                   [matTooltipPosition]="'above'"></i></span>
+              <span *ngIf="activity" (click)="editActivity(activity?._id)">
+                <i class="mr-2 fa-solid fa-pen-to-square"
+                   [matTooltip]="'Edit activity'"
+                   [matTooltipShowDelay]="1000"
+                   [matTooltipPosition]="'above'"></i></span>
+              <span *ngIf="activity" (click)="deleteActivity(activity)">
+                <i class="mr-2 fa-sharp fa-solid fa-trash"
+                   [matTooltip]="'Delete activity'"
+                   [matTooltipShowDelay]="1000"
+                   [matTooltipPosition]="'above'"></i></span>
+            </div>
           </td>
         </tr>
       </ng-container>

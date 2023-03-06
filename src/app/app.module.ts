@@ -4,12 +4,12 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ReportExpensesComponent } from './report-expenses/report-expenses.component';
-import { ReportExpensesService } from "./report-expenses/report-expenses.service";
+import { ActivityService } from "./report-expenses/activity.service";
 import { HttpClientModule } from '@angular/common/http';
-import { CommonModule } from '@angular/common';
+import {CommonModule, TitleCasePipe} from '@angular/common';
 import { OwedByComponent } from './report-expenses/owed-by/owed-by.component';
 import { PaidByComponent } from './report-expenses/paid-by/paid-by.component';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatSelectModule} from '@angular/material/select';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -18,8 +18,20 @@ import {MatButtonModule} from '@angular/material/button';
 import { PaidByAndOwedByComponent } from './report-expenses/paid-by-and-owed-by/paid-by-and-owed-by.component';
 import { DisplayExpenseComponent } from './report-expenses/display-expense/display-expense.component';
 import { DisplayAllExpensesComponent } from './report-expenses/display-all-expenses/display-all-expenses.component';
-import { DisplayZiplineVideoComponent } from './report-expenses/display-zipline-video/display-zipline-video.component';
 import { FooterComponent } from './footer/footer.component';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { ExpenseModalComponent } from './report-expenses/expense-modal/expense-modal.component';
+import {MatInputModule} from "@angular/material/input";
+import { MatDialogModule } from '@angular/material/dialog';
+import { TravelerModalComponent } from './report-expenses/traveler-modal/traveler-modal.component';
+import {MatListModule} from "@angular/material/list";
+import {AppService} from "./report-expenses/app.service";
+import {TravelerService} from "./report-expenses/traveler.service";
+import {MatDatepickerModule} from "@angular/material/datepicker";
+import {MatNativeDateModule} from "@angular/material/core";
+import {YesOrNoDialogComponent} from "./report-expenses/yes-or-no-dialog/yes-or-no-dialog.component";
+
+
 
 @NgModule({
   declarations: [
@@ -30,22 +42,37 @@ import { FooterComponent } from './footer/footer.component';
     PaidByAndOwedByComponent,
     DisplayExpenseComponent,
     DisplayAllExpensesComponent,
-    DisplayZiplineVideoComponent,
-    FooterComponent
+    FooterComponent,
+    ExpenseModalComponent,
+    YesOrNoDialogComponent,
+    TravelerModalComponent
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    HttpClientModule,
-    CommonModule,
-    FormsModule,
-    MatFormFieldModule,
-    MatSelectModule,
-    BrowserAnimationsModule,
-    MatTooltipModule,
-    MatButtonModule,
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        HttpClientModule,
+        CommonModule,
+        FormsModule,
+        MatFormFieldModule,
+        MatSelectModule,
+        BrowserAnimationsModule,
+        MatTooltipModule,
+        MatButtonModule,
+        MatSlideToggleModule,
+        ReactiveFormsModule,
+        MatInputModule,
+        MatDialogModule,
+        MatListModule,
+        MatDatepickerModule,
+        MatNativeDateModule
+    ],
+  providers: [
+    ActivityService,
+    AppService,
+    TravelerService,
+    TitleCasePipe,
+    // DateAdapter
   ],
-  providers: [ReportExpensesService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

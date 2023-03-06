@@ -1,8 +1,10 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {TravelerEnum} from '../util/travelerEnum';
 import {takeUntil} from 'rxjs/operators';
 import {ActivatedRoute} from '@angular/router';
-import {Subject} from 'rxjs';
+import {mergeMap, of, Subject} from 'rxjs';
+import {Traveler} from "../traveler.model";
+import {AppService} from "../app.service";
+import {TravelerService} from "../traveler.service";
 
 @Component({
   selector: 'paid-by-and-owed-by',
@@ -13,21 +15,35 @@ export class PaidByAndOwedByComponent implements OnInit, OnDestroy {
   public amountToReturn: number = 0;
   public expensesWithOwedAmountEventFromPaidByComp: number = 0;
   public expensesWithOwedAmountEventFromOwedByComp: number = 0;
-  public selectedTraveler: string | null = '';
+  public selectedTraveler: Traveler | null = null;
   private isExpensesWithOwedAmountEventFromPaidByCompSet = false;
   private isExpensesWithOwedAmountEventFromOwedByCompSet = false;
-  private travelers: string[] = [];
+  private travelers: Traveler[] = [];
   private ngUnsubscribe: Subject<void> = new Subject();
 
-  constructor(private route: ActivatedRoute,) { }
+  constructor(private route: ActivatedRoute,
+              private travelerService: TravelerService,
+              private appService: AppService) { }
 
   ngOnInit(): void {
-    this.travelers = [...Object.values(TravelerEnum)];
-    this.route.paramMap.pipe(
-      takeUntil(this.ngUnsubscribe)
-    ).subscribe((paramMap) => {
-      this.selectedTraveler = paramMap.get('traveler');
-    });
+    this.travelerService.getTravelers()
+      .pipe(takeUntil(this.ngUnsubscribe),
+        mergeMap((travelers: Traveler[]) => {
+          this.travelers = travelers
+          return this.route.paramMap;
+        }),
+        mergeMap((paramMap) => {
+          console.log(paramMap.get('travelerId'));
+          if (paramMap.get('travelerId')) {
+            return this.travelerService.findById(Number(paramMap.get('travelerId')))
+          } else {
+            return of(null)
+          }
+        }))
+      .subscribe((traveler: Traveler | null) => {
+        console.log('traveler: ', traveler);
+        this.selectedTraveler = traveler;
+      });
   }
 
   public ngOnDestroy(): void {
@@ -48,6 +64,5 @@ export class PaidByAndOwedByComponent implements OnInit, OnDestroy {
       this.amountToReturn = this.expensesWithOwedAmountEventFromPaidByComp - this.expensesWithOwedAmountEventFromOwedByComp;
     }
   }
-
 
 }

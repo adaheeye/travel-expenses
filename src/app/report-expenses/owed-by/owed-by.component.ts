@@ -1,11 +1,13 @@
 import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
-import {Expense} from '../expense.model';
-import {Subject} from 'rxjs';
-import {ReportExpensesService} from '../report-expenses.service';
+import {Activity} from '../activity.model';
+import {mergeMap, of, Subject} from 'rxjs';
+import {ActivityService} from '../activity.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {takeUntil} from 'rxjs/operators';
 import {ExpenseWithOwedAmount} from '../expenseWithOwedAmaount.model';
-import {TravelerEnum} from '../util/travelerEnum';
+import {Traveler} from "../traveler.model";
+import {AppService} from "../app.service";
+import {TravelerService} from "../traveler.service";
 
 @Component({
   selector: 'owed-by',
@@ -15,27 +17,41 @@ import {TravelerEnum} from '../util/travelerEnum';
 export class OwedByComponent implements OnInit, OnDestroy {
   @Input() public passToComponent: boolean = false;
   @Output() expensesWithOwedAmountEvent: EventEmitter<any> = new EventEmitter();
-  public expenses: Expense[] = [];
+  public expenses: Activity[] = [];
   public expensesWithOwedAmount: ExpenseWithOwedAmount[] = [];
   public name: any;
-  public selectedTraveler: string | null = '';
+  public selectedTraveler: Traveler | null = null;
   public totalExpensesWithOwedAmount: number = 0;
-  private travelers: string[] = []
+  private travelers: Traveler[] = []
   private ngUnsubscribe: Subject<void> = new Subject();
 
-  constructor(private reportExpensesService: ReportExpensesService,
+  constructor(private reportExpensesService: ActivityService,
+              private travelerService: TravelerService,
+              private appService: AppService,
               private route: ActivatedRoute,
               private _router: Router) {
   }
 
   ngOnInit(): void {
-    this.travelers = [...Object.values(TravelerEnum)];
-    this.route.paramMap.pipe(
-      takeUntil(this.ngUnsubscribe)
-    ).subscribe((paramMap) => {
-      this.selectedTraveler = paramMap.get('traveler');
-      this.getExpenses();
-    });
+    this.travelerService.getTravelers()
+      .pipe(takeUntil(this.ngUnsubscribe),
+        mergeMap((travelers: Traveler[]) => {
+          this.travelers = travelers
+          return this.route.paramMap;
+        }),
+        mergeMap((paramMap) => {
+          console.log(paramMap.get('travelerId'));
+          if (paramMap.get('travelerId')) {
+            return this.travelerService.findById(Number(paramMap.get('travelerId')))
+          } else {
+            return of(null)
+          }
+        }))
+      .subscribe((traveler: Traveler | null) => {
+        console.log('traveler: ', traveler);
+        this.selectedTraveler = traveler;
+        this.getExpenses();
+      });
   }
 
   public ngOnDestroy(): void {
@@ -48,22 +64,22 @@ export class OwedByComponent implements OnInit, OnDestroy {
   }
 
   private getExpenses() {
-    this.reportExpensesService.getExpenses()
-      .subscribe((activities: Expense[]) => {
+    this.reportExpensesService.getActivities()
+      .subscribe((activities: Activity[]) => {
         if (!!activities.length) {
           this.expenses = activities;
-          this.expenses = this.expenses.filter((expense) => expense.paidBy !== this.selectedTraveler &&
-            (expense.owedBy?.includes('All') || expense.owedBy?.includes(this.selectedTraveler as string | '')));
-          this.expensesWithOwedAmount = this.expenses.map((expense: Expense) => {
+          this.expenses = this.expenses.filter((expense) => expense.paidBy.firstName !== this.selectedTraveler?.firstName &&
+            (expense.owedBy?.map((owedBy) => owedBy.firstName).includes('All') || expense.owedBy?.map((owedBy) => owedBy.firstName).includes(this.selectedTraveler?.firstName as string | '')));
+          this.expensesWithOwedAmount = this.expenses.map((expense: Activity) => {
             return {
-              id: expense.id,
+              id: expense._id,
               activityName: expense.activityName,
               activityDate: expense.activityDate,
               amount: expense.amount,
               paidBy: expense.paidBy,
               owedBy: expense.owedBy,
               details: expense.details,
-              expensesWithOwedAmount: expense.owedBy.includes('All') ?
+              expensesWithOwedAmount: expense.owedBy.map((owedBy) => owedBy.firstName).includes('All') ?
                 expense.amount / this.travelers.length :
                 expense.amount / expense.owedBy.length
             }

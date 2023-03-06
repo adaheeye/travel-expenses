@@ -55,7 +55,7 @@
   },
   {
     "id": 6,
-    "activityName": "NIAGARA Boat ride",
+    "activityName": "Niagara Boat ride",
     "activityDate": "2021-10-2",
     "amount": 70.63,
     "paidBy": "Awaleh",
@@ -73,7 +73,7 @@
   },
   {
     "id": 8,
-    "activityName": "NIAGARA parking",
+    "activityName": "Niagara parking",
     "activityDate": "2021-10-2",
     "amount": 30,
     "paidBy": "Awaleh",
@@ -91,7 +91,7 @@
   },
   {
     "id": 10,
-    "activityName": "NIAGARA - Drinks bought in NIAGARA",
+    "activityName": "Niagara - Drinks bought in Niagara",
     "activityDate": "2021-10-2",
     "amount": 6,
     "paidBy": "Awaleh",
@@ -109,7 +109,7 @@
   },
   {
     "id": 12,
-    "activityName": "NIAGARA - Ice creams bought in NIAGARA",
+    "activityName": "Niagara - Ice creams bought in Niagara",
     "activityDate": "2021-10-2",
     "amount": 15,
     "paidBy": "Abdirahim",
@@ -118,7 +118,7 @@
   },
   {
     "id": 13,
-    "activityName": "NIAGARA - The haunted House",
+    "activityName": "Niagara - The haunted House",
     "activityDate": "2021-10-2",
     "amount": 31.60,
     "paidBy": "Abdirahim",
@@ -127,7 +127,7 @@
   },
   {
     "id": 14,
-    "activityName": "NIAGARA - Skywheel",
+    "activityName": "Niagara - Skywheel",
     "activityDate": "2021-10-2",
     "amount": 31.64,
     "paidBy": "Abdirahim",
@@ -136,7 +136,7 @@
   },
   {
     "id": 15,
-    "activityName": "NIAGARA falls - Digital pictures",
+    "activityName": "Niagara falls - Digital pictures",
     "activityDate": "2021-10-2",
     "amount": 45,
     "paidBy": "Abdirahim",

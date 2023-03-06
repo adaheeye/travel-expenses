@@ -71,6 +71,11 @@
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "travel-expenses:build",
+            "proxyConfig": "./proxy.conf.js",
+            "port": 3003
+          },
           "configurations": {
             "production": {
               "browserTarget": "travel-expenses:build:production"

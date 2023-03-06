@@ -1,0 +1,22 @@
+.expenses {
+    padding: 24px;
+}
+
+
+// div.report > table > tr:nth-child(1) {
+//     background: #eef3f3;
+// }
+
+.add-activity {
+  margin-right: -15px;
+}
+
+.action {
+  span, i {
+    cursor: pointer;
+
+    &:hover {
+      color: #969696;
+    }
+  }
+}

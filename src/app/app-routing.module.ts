@@ -6,7 +6,6 @@ import {PaidByComponent} from './report-expenses/paid-by/paid-by.component';
 import {PaidByAndOwedByComponent} from './report-expenses/paid-by-and-owed-by/paid-by-and-owed-by.component';
 import {DisplayExpenseComponent} from './report-expenses/display-expense/display-expense.component';
 import {DisplayAllExpensesComponent} from './report-expenses/display-all-expenses/display-all-expenses.component';
-import {DisplayZiplineVideoComponent} from './report-expenses/display-zipline-video/display-zipline-video.component';
 
 const routes: Routes = [
   { path: '', component: ReportExpensesComponent},
@@ -15,7 +14,6 @@ const routes: Routes = [
   { path: 'paid-by-and-owed-by/:traveler', component: PaidByAndOwedByComponent },
   { path: 'display-expense/:id', component: DisplayExpenseComponent },
   { path: 'display-all-expenses', component: DisplayAllExpensesComponent },
-  { path: 'zipline', component: DisplayZiplineVideoComponent },
   { path: '**', component: ReportExpensesComponent },  // Wildcard route for a home page
 ];
 

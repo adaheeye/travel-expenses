@@ -1,7 +1,14 @@
 .report {
   font-size: 16px;
 
-  .expense-field {
+  .field {
     font-weight: bold;
+    width: 20%;
+  }
+
+  .field-value {
+    width: 80%;
   }
 }
+
+

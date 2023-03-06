@@ -2,9 +2,10 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {takeUntil} from 'rxjs/operators';
 import {ActivatedRoute} from '@angular/router';
 import {Subject} from 'rxjs';
-import {Expense} from '../expense.model';
-import {ReportExpensesService} from '../report-expenses.service';
-import {isNumeric} from 'rxjs/internal-compatibility';
+import {Activity} from '../activity.model';
+import {ActivityService} from '../activity.service';
+import {Traveler} from "../traveler.model";
+import {TitleCasePipe} from "@angular/common";
 
 @Component({
   selector: 'display-expense',
@@ -13,12 +14,13 @@ import {isNumeric} from 'rxjs/internal-compatibility';
 })
 export class DisplayExpenseComponent implements OnInit, OnDestroy {
 
-  public expenses: Expense[] = [];
-  public expense: Expense | undefined;
+  public expenses: Activity[] = [];
+  public activity: Activity | undefined;
   private ngUnsubscribe: Subject<void> = new Subject();
   private id: string | null = '';
 
-  constructor(private reportExpensesService: ReportExpensesService,
+  constructor(private reportExpensesService: ActivityService,
+              private titleCasePipe: TitleCasePipe,
               private route: ActivatedRoute) { }
 
   public ngOnInit(): void {
@@ -26,9 +28,7 @@ export class DisplayExpenseComponent implements OnInit, OnDestroy {
       takeUntil(this.ngUnsubscribe)
     ).subscribe((paramMap) => {
       this.id = paramMap.get('id');
-      if (isNumeric(this.id)) {
-        this.getExpenses();
-      }
+      this.getExpenses();
     });
   }
 
@@ -37,13 +37,17 @@ export class DisplayExpenseComponent implements OnInit, OnDestroy {
     this.ngUnsubscribe.complete();
   }
 
+  getOwedBy(owedBy: Traveler[]): string {
+    return owedBy.map((oB) => this.titleCasePipe.transform((oB.firstName || '') + ' ' + (oB.lastName || ''))).join(', ');
+  }
+
   private getExpenses() {
-    this.reportExpensesService.getExpenses()
-      .subscribe((activities: Expense[]) => {
+    this.reportExpensesService.getActivities()
+      .subscribe((activities: Activity[]) => {
         if (!!activities.length) {
           this.expenses  = activities;
           if (!!this.id) {
-            this.expense = this.expenses.find((expense: Expense) => expense.id === parseInt(String(this.id)));
+            this.activity = this.expenses.find((expense: Activity) => expense._id === this.id);
           }
         }
       });

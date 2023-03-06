@@ -1,0 +1,96 @@
+<p mat-dialog-title>Add one or more activity(ies)</p>
+<mat-dialog-content>
+  <form [formGroup]="expenseForm">
+    <mat-form-field class="w-100">
+      <mat-label>Activity Name</mat-label>
+      <input matInput formControlName="activityName">
+      <mat-error *ngIf="expenseForm.controls['activityName'].invalid && expenseForm.controls['activityName'].touched">
+        <p *ngIf="expenseForm.controls['activityName'].errors?.required">Activity Name is required</p>
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field class="w-100">
+      <mat-label>Activity Date</mat-label>
+      <input matInput [matDatepicker]="picker" formControlName="activityDate">
+      <mat-hint>MM/DD/YYYY</mat-hint>
+      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+      <mat-error *ngIf="expenseForm.controls['activityDate'].invalid && expenseForm.controls['activityDate'].touched">
+        <p *ngIf="expenseForm.controls['activityDate'].errors?.required">Activity Date is required</p>
+        <p *ngIf="expenseForm.controls['activityDate'].errors?.futureDate">Please select a date in the past</p>
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field class="w-100">
+      <mat-label>Amount</mat-label>
+      <input matInput formControlName="amount" type="number">
+      <mat-error *ngIf="expenseForm.controls['amount'].invalid && expenseForm.controls['amount'].touched">
+        <p *ngIf="expenseForm.controls['amount'].errors?.required">Amount is required</p>
+        <p *ngIf="expenseForm.controls['amount'].errors?.pattern">Amount must be a valid number</p>
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field class="w-100">
+      <mat-label>Paid By</mat-label>
+      <mat-select class="ml-2" placeholder="Paid by"
+                  matTooltip="Paid by"
+                  formControlName="paidBy">
+        <mat-option *ngFor="let traveler of travelers" [value]="traveler._id">
+          {{traveler.firstName}} {{traveler.lastName}}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="expenseForm.controls['paidBy'].invalid && expenseForm.controls['paidBy'].touched">
+        <p *ngIf="expenseForm.controls['paidBy'].errors?.required">Paid By is required</p>
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field class="w-100">
+      <mat-label>Owed By</mat-label>
+      <mat-select class="ml-2"
+                  multiple
+                  placeholder="Owed By"
+                  matTooltip="Owed By"
+                  [disabled]="true"
+                  formControlName="owedBy">
+        <mat-option *ngFor="let traveler of travelers"
+                    [value]="traveler._id"
+                    [disabled]="traveler._id === expenseForm.controls['paidBy'].value">
+          {{traveler.firstName}} {{traveler.lastName}}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="expenseForm.controls['owedBy'].invalid && expenseForm.controls['owedBy'].touched">
+        <p *ngIf="expenseForm.controls['owedBy'].errors?.required">Owed By is required</p>
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field class="w-100">
+      <mat-label>Details</mat-label>
+      <textarea matInput formControlName="details"></textarea>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions class="float-right">
+  <button mat-button (click)="close()">Close</button>
+  <button mat-raised-button color="primary" [disabled]="expenseForm.invalid" (click)="addActivity()">Add</button>
+  <button mat-raised-button color="primary" [disabled]="!newActivities.length" (click)="submit()">Submit</button>
+</mat-dialog-actions>
+<span class="title" *ngIf="newActivities.length">New activity(ies)</span>
+<table class="table" *ngIf="newActivities.length">
+  <thead>
+  <tr>
+    <th scope="col">Activity Name</th>
+    <th scope="col">Activity Date</th>
+    <th scope="col">Amount</th>
+    <th scope="col">Paid By</th>
+    <th scope="col">Owed By</th>
+    <th scope="col">Details</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let activity of newActivities">
+    <td style="width: 20%">{{activity.activityName}}</td>
+    <td style="width: 15%">{{activity.activityDate | date:'longDate'}}</td>
+    <td style="width: 15%">{{activity.amount | currency: 'CAD':'symbol-narrow':'1.2-2': 'en' }}</td>
+    <td style="width: 10%">{{activity?.paidBy?.firstName | titlecase }}</td>
+    <td style="width: 30%"><span *ngIf="activity.owedBy">{{getOwedBy(activity.owedBy)}}</span></td>
+    <td style="width: 10%">{{activity.details}}</td>
+  </tr>
+  </tbody>
+</table>
+
+
