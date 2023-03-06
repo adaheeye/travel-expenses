@@ -45,4 +45,4 @@ testem.log
 Thumbs.db
 
 #ignore .pack files
-*.pack
+.angular/cache/*
