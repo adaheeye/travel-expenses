@@ -1,7 +1,6 @@
-<div class="container content">
-  <div class="jumbotron header">
-    <h1><a routerLink="/">Expenses report activities</a></h1>
-  </div>
+<app-header [title]="'Expenses report activities'" [isLink]="true"></app-header>
+
+<div class="container-fluid content">
   <h1 class="title-report">Displaying the final calculated expenses</h1>
   <div class="report">
     <ng-container *ngFor="let expense of expenseWithDetailsMap | keyvalue">

@@ -11,6 +11,11 @@
   margin-right: -15px;
 }
 
+.add-traveler {
+  margin-left: auto;
+}
+
+
 .action {
   span, i {
     cursor: pointer;
@@ -19,4 +24,12 @@
       color: #969696;
     }
   }
+}
+
+.filter {
+  padding: 13px;
+}
+
+.create-buttons {
+  padding: 15px;
 }

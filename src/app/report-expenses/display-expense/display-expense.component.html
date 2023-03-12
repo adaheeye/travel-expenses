@@ -1,8 +1,7 @@
-<div class="container content">
-  <div class="jumbotron header">
-    <h1><a routerLink="/">Expenses report activities</a></h1>
-  </div>
-  <h1 class="my-5">Viewing {{activity?.activityName}}</h1>
+<app-header [title]="'Expenses report activities'" [isLink]="true"></app-header>
+
+<div class="container-fluid content">
+  <h1 class="my-2">Viewing {{activity?.activityName}}</h1>
   <table class="table report" *ngIf="activity">
     <tbody>
     <tr>

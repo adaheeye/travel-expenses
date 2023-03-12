@@ -1,4 +1,11 @@
-<p mat-dialog-title>Add one or more activity(ies)</p>
+<div mat-dialog-title>
+  <span *ngIf="!isEditingExistingOne">Add one or more activity(ies)</span>
+  <span *ngIf="isEditingExistingOne">Update an activity</span>
+  <button mat-icon-button mat-dialog-close class="float-right mt-3">
+    <mat-icon aria-label="Close dialog">close</mat-icon>
+  </button>
+</div>
+
 <mat-dialog-content>
   <form [formGroup]="expenseForm">
     <mat-form-field class="w-100">
@@ -66,8 +73,9 @@
 </mat-dialog-content>
 <mat-dialog-actions class="float-right">
   <button mat-button (click)="close()">Close</button>
-  <button mat-raised-button color="primary" [disabled]="expenseForm.invalid" (click)="addActivity()">Add</button>
-  <button mat-raised-button color="primary" [disabled]="!newActivities.length" (click)="submit()">Submit</button>
+  <button *ngIf="!isEditingExistingOne" mat-raised-button color="primary" [disabled]="expenseForm.invalid" (click)="addActivity()">Add</button>
+  <button *ngIf="!isEditingExistingOne"mat-raised-button color="accent" [disabled]="!newActivities.length" (click)="submit()">Submit</button>
+  <button *ngIf="isEditingExistingOne"mat-raised-button color="accent" (click)="submit()">Update</button>
 </mat-dialog-actions>
 <span class="title" *ngIf="newActivities.length">New activity(ies)</span>
 <table class="table" *ngIf="newActivities.length">

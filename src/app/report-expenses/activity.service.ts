@@ -28,7 +28,7 @@ export class ActivityService {
     }));
   }
 
-  public findById(id: number): Observable<Activity> {
+  public findById(id: string): Observable<Activity> {
     return this.http.get<Activity>(`${this.resourceUrl}/activity/${id}`).pipe(map((data: Activity) => {
       return new Activity(data);
     }));

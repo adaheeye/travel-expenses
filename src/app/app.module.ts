@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -30,6 +30,9 @@ import {TravelerService} from "./report-expenses/traveler.service";
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatNativeDateModule} from "@angular/material/core";
 import {YesOrNoDialogComponent} from "./report-expenses/yes-or-no-dialog/yes-or-no-dialog.component";
+import {MatIconModule} from "@angular/material/icon";
+import {MatToolbarModule} from "@angular/material/toolbar";
+import {HeaderComponent} from "./header/header.component";
 
 
 
@@ -43,6 +46,7 @@ import {YesOrNoDialogComponent} from "./report-expenses/yes-or-no-dialog/yes-or-
     DisplayExpenseComponent,
     DisplayAllExpensesComponent,
     FooterComponent,
+    HeaderComponent,
     ExpenseModalComponent,
     YesOrNoDialogComponent,
     TravelerModalComponent
@@ -64,7 +68,9 @@ import {YesOrNoDialogComponent} from "./report-expenses/yes-or-no-dialog/yes-or-
         MatDialogModule,
         MatListModule,
         MatDatepickerModule,
-        MatNativeDateModule
+        MatNativeDateModule,
+        MatIconModule,
+        MatToolbarModule
     ],
   providers: [
     ActivityService,
@@ -73,6 +79,7 @@ import {YesOrNoDialogComponent} from "./report-expenses/yes-or-no-dialog/yes-or-
     TitleCasePipe,
     // DateAdapter
   ],
+  // schemas: [CUSTOM_ELEMENTS_SCHEMA], // Add this line to suppress the error
   bootstrap: [AppComponent]
 })
 export class AppModule { }

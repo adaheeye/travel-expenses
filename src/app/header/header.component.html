@@ -1,0 +1,14 @@
+<p>
+  <mat-toolbar color="primary">
+    <button mat-icon-button class="menu-icon">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <ng-container *ngIf="isLink; else notLink" >
+      <span><a routerLink="/">{{title}}</a></span>
+    </ng-container>
+    <ng-template #notLink>
+      <span>{{title}}</span>
+    </ng-template>
+    <span class="spacer"></span>
+  </mat-toolbar>
+</p>

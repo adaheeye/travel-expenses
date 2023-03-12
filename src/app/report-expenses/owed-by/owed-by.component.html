@@ -1,7 +1,6 @@
-<div class="container content">
-  <div class="jumbotron header" *ngIf="!passToComponent">
-    <h1><a routerLink="/">Expenses report activities</a></h1>
-  </div>
+<app-header *ngIf="!passToComponent" [title]="'Expenses report activities'" [isLink]="true"></app-header>
+
+<div class="container-fluid content">
   <h1 class="title-report">Owed activities/food by {{selectedTraveler}}</h1>
   <div class="report">
     <table class="table" *ngIf="!!expenses.length">

@@ -1,7 +1,6 @@
-<div class="container content">
-  <div class="jumbotron header">
-    <h1><a routerLink="/">Expenses report activities</a></h1>
-  </div>
+<app-header [title]="'Expenses report activities'" [isLink]="true"></app-header>
+
+<div class="container-fluid content">
   <div>
     <paid-by [passToComponent]="true" (expensesWithOwedAmountEvent)="onChange($event, 'paidBy')"></paid-by>
   </div>

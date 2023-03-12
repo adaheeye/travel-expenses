@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 import {ActivityService} from './activity.service';
 import {Activity} from './activity.model';
 import {Router} from '@angular/router';
@@ -17,7 +17,8 @@ import {YesOrNoDialogComponent} from "./yes-or-no-dialog/yes-or-no-dialog.compon
 @Component({
   selector: 'report-expenses',
   templateUrl: './report-expenses.component.html',
-  styleUrls: ['./report-expenses.component.scss']
+  styleUrls: ['./report-expenses.component.scss'],
+  // encapsulation: ViewEncapsulation.None
 })
 export class ReportExpensesComponent implements OnInit, OnDestroy {
   public activities: Activity[] = [];
@@ -87,34 +88,6 @@ export class ReportExpensesComponent implements OnInit, OnDestroy {
     this._router.navigate(['display-all-expenses'], { replaceUrl: true }).then();
   }
 
-  public addActivity(): void {
-    const dialog = this.matDialog.open(ExpenseModalComponent,
-      {
-        height: '900px',
-        width: '1200px',
-        hasBackdrop: true,
-        data: {expense: null, travelers: this.travelers},
-        scrollStrategy: this.overlay.scrollStrategies.noop(),
-        panelClass: 'mat-dialog-container-visible'
-      });
-    dialog.afterClosed().pipe(take(1),
-      takeUntil(this.ngUnsubscribe),
-      mergeMap((activities: Activity[]) => {
-        return this.activityService.createMany(activities);
-      }))
-      .subscribe((activities) => {
-        if (activities?.length) {
-          activities = activities.map((newActivity) => {
-            newActivity.paidBy = this.travelers.find((t) => t._id === newActivity.paidBy._id) || newActivity.paidBy;
-            newActivity.owedBy = this.travelers.filter((t) => newActivity.owedBy.map((oB) => oB._id).includes(t._id));
-            return newActivity;
-          })
-          this.activities = [...this.activities, ...activities]
-        }
-        console.log('activities: ',activities)
-      });
-  }
-
   public addTraveler(): void {
     const dialog = this.matDialog.open(TravelerModalComponent,
       {
@@ -147,8 +120,65 @@ export class ReportExpensesComponent implements OnInit, OnDestroy {
   viewActivity(id: string | undefined): void {
     this._router.navigate([`display-expense/${id}`], { replaceUrl: true }).then();
   }
-  editActivity(id: string | undefined): void {
-    // TODO
+
+  public addActivity(): void {
+    const dialog = this.matDialog.open(ExpenseModalComponent,
+      {
+        height: '900px',
+        width: '1200px',
+        hasBackdrop: true,
+        data: {expense: null, travelers: this.travelers},
+        scrollStrategy: this.overlay.scrollStrategies.noop(),
+        panelClass: 'mat-dialog-container-visible'
+      });
+    dialog.afterClosed().pipe(take(1),
+      takeUntil(this.ngUnsubscribe),
+      mergeMap((event: CustomEvent) => {
+        if (!!event && event.detail && event.detail.newActivities?.length) {
+          return this.activityService.createMany(event.detail.newActivities);
+        }
+        return of([]);
+      }))
+      .subscribe((activities) => {
+        if (activities?.length) {
+          activities = activities.map((newActivity) => {
+            newActivity.paidBy = this.travelers.find((t) => t._id === newActivity.paidBy._id) || newActivity.paidBy;
+            newActivity.owedBy = this.travelers.filter((t) => newActivity.owedBy.map((oB) => oB._id).includes(t._id));
+            return newActivity;
+          })
+          this.activities = [...this.activities, ...activities]
+        }
+        console.log('activities: ',activities)
+      });
+  }
+
+  editActivity(activity: Activity): void {
+    const dialog = this.matDialog.open(ExpenseModalComponent,
+      {
+        height: '900px',
+        width: '1200px',
+        hasBackdrop: true,
+        data: {expense: activity, travelers: this.travelers},
+        scrollStrategy: this.overlay.scrollStrategies.noop(),
+        panelClass: 'mat-dialog-container-visible'
+      });
+    dialog.afterClosed().pipe(take(1),
+      takeUntil(this.ngUnsubscribe),
+      mergeMap((event: CustomEvent) => {
+        if (!!event && event.detail && event.detail.updatedActivity) {
+          return this.activityService.update(event.detail.updatedActivity)
+        }
+        return of(null);
+      }))
+      .subscribe((activity: Activity | null) => {
+        console.log('activity: ', activity)
+        if (activity) {
+          const indexToReplace = this.activities.findIndex(act => act._id === activity._id);
+          if (indexToReplace !== -1) {
+            this.activities[indexToReplace] = activity;
+          }
+        }
+      });
 
   }
   deleteActivity(activity: Activity): void {

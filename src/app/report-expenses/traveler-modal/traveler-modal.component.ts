@@ -15,7 +15,7 @@ export class TravelerModalComponent implements OnDestroy {
   public newTravelers: Traveler[] = [];
   public travelerForm = new FormGroup({
     firstName: new FormControl('', [Validators.required, this.noDuplicateNamesValidator()]),
-    lastName: new FormControl('', [this.noDuplicateNamesValidator()])
+    lastName: new FormControl('', [Validators.required, this.noDuplicateNamesValidator()])
   });
   private ngUnsubscribe: Subject<void> = new Subject();
 
@@ -33,8 +33,8 @@ export class TravelerModalComponent implements OnDestroy {
 
   addTraveler(): void {
     console.log(this.travelerForm.value);
-    this.newTravelers.push(this.travelerForm.value as Traveler)
-    this.travelers.push(this.travelerForm.value as Traveler);
+    this.newTravelers.unshift(this.travelerForm.value as Traveler)
+    this.travelers.unshift(this.travelerForm.value as Traveler);
     this.travelerForm.reset();
   }
 

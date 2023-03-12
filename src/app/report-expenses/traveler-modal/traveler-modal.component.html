@@ -1,4 +1,9 @@
-<p mat-dialog-title>Add traveler(s)</p>
+<div mat-dialog-title>
+  <span>Add traveler(s)</span>
+  <button mat-icon-button mat-dialog-close class="float-right mt-3">
+    <mat-icon aria-label="Close dialog">close</mat-icon>
+  </button>
+</div>
 <mat-dialog-content>
   <form [formGroup]="travelerForm">
     <mat-form-field class="w-100">
@@ -21,23 +26,21 @@
 <mat-dialog-actions class="float-right">
   <button mat-button (click)="close()">Close</button>
   <button mat-raised-button color="primary" [disabled]="travelerForm.invalid" (click)="addTraveler()">Add</button>
-  <button mat-raised-button color="primary" [disabled]="!newTravelers.length" (click)="submit()">Submit</button>
+  <button mat-raised-button color="accent" [disabled]="!newTravelers.length" (click)="submit()">Submit</button>
 </mat-dialog-actions>
 
 <span class="title" *ngIf="travelers.length">Existing travellers & new traveler(s)</span>
 <table class="table" *ngIf="travelers.length">
   <thead>
   <tr>
-    <th scope="col">#</th>
     <th scope="col">First name</th>
     <th scope="col">Last name</th>
   </tr>
   </thead>
   <tbody>
   <tr *ngFor="let traveler of travelers; index as i">
-    <td>{{i + 1}}</td>
-    <td>{{traveler.firstName}}</td>
-    <td>{{traveler.lastName}}</td>
+    <td style="width: 20%">{{traveler.firstName}}</td>
+    <td style="width: 20%">{{traveler.lastName}}</td>
   </tr>
   </tbody>
 </table>

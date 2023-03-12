@@ -16,6 +16,8 @@ import {Subject} from "rxjs";
 export class ExpenseModalComponent implements OnInit, OnDestroy {
   public travelers: Traveler[] = [];
   public newActivities: Activity[] = [];
+  public expense: Activity;
+  public isEditingExistingOne: boolean;
   private ngUnsubscribe: Subject<void> = new Subject();
 
   constructor(public dialogRef: MatDialogRef<ExpenseModalComponent>,
@@ -23,6 +25,18 @@ export class ExpenseModalComponent implements OnInit, OnDestroy {
               private matDialog: MatDialog,
               @Inject(MAT_DIALOG_DATA) public data: {expense: Activity, travelers: Traveler[]}) {
     this.travelers = this.data.travelers;
+    if (this.data.expense) {
+      this.isEditingExistingOne = true;
+      this.expenseForm.setValue({
+        _id: this.data.expense._id,
+        activityName: this.data.expense.activityName,
+        activityDate: this.data.expense.activityDate || null,
+        amount: this.data.expense.amount || null,
+        paidBy: this.data.expense.paidBy['_id'],
+        owedBy: this.data.expense.owedBy.map((traveler) => traveler._id),
+        details: this.data.expense.details,
+      } as any);
+    }
   }
   expenseForm = new FormGroup({
     _id: new FormControl(null),
@@ -54,18 +68,7 @@ export class ExpenseModalComponent implements OnInit, OnDestroy {
   addActivity() {
     console.log('expenseForm.value: ', this.expenseForm.value);
     console.log('this.expenseForm.value: ', this.expenseForm.value);
-    const newActivity = new Activity({
-      activityName: this.expenseForm.value.activityName,
-      activityDate: this.expenseForm.value.activityDate,
-      amount: this.expenseForm.value.amount,
-      paidBy: new Traveler({
-        _id: this.expenseForm.value.paidBy
-      }),
-      owedBy: this.getOwedByArray(),
-      details: this.expenseForm.value.details,
-    });
-    newActivity.paidBy = this.travelers.find((t) => t._id === newActivity.paidBy._id) || newActivity.paidBy;
-    newActivity.owedBy = this.travelers.filter((t) => newActivity.owedBy.map((oB) => oB._id).includes(t._id));
+    const newActivity = this.getNewOrUpdatedActivity();
     console.log('newActivity.owedBy: ', newActivity.owedBy);
     this.newActivities.push(newActivity);
     this.expenseForm.reset();
@@ -86,7 +89,20 @@ export class ExpenseModalComponent implements OnInit, OnDestroy {
   }
 
   submit(): void {
-    this.dialogRef.close(this.newActivities);
+    if (this.isEditingExistingOne) {
+      const updatedActivity = this.getNewOrUpdatedActivity();
+      this.dialogRef.close(new CustomEvent('updateActivity', {
+        detail: {
+          updatedActivity
+        }
+      }));
+    } else {
+      this.dialogRef.close(new CustomEvent('createdActivities', {
+        detail: {
+          newActivities: this.newActivities
+        }
+      }));
+    }
   }
 
   close(): void {
@@ -121,4 +137,20 @@ export class ExpenseModalComponent implements OnInit, OnDestroy {
     };
   }
 
+  private getNewOrUpdatedActivity(): Activity {
+    const newActivity = new Activity({
+      _id: this.expenseForm.value._id,
+      activityName: this.expenseForm.value.activityName,
+      activityDate: this.expenseForm.value.activityDate,
+      amount: this.expenseForm.value.amount,
+      paidBy: new Traveler({
+        _id: this.expenseForm.value.paidBy
+      }),
+      owedBy: this.getOwedByArray(),
+      details: this.expenseForm.value.details,
+    });
+    newActivity.paidBy = this.travelers.find((t) => t._id === newActivity.paidBy._id) || newActivity.paidBy;
+    newActivity.owedBy = this.travelers.filter((t) => newActivity.owedBy.map((oB) => oB._id).includes(t._id));
+    return newActivity;
+  }
 }

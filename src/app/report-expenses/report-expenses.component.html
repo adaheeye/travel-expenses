@@ -1,11 +1,9 @@
-<div class="container content">
-  <div class="jumbotron header mb-1">
-    <h1>Expenses report activities</h1>
-  </div>
+<app-header [title]="'Expenses report activities'" [isLink]="false"></app-header>
+<div class="container-fluid content">
   <div class="filter mb-3">
     <div class="row">
       <div class="col-12">
-        <h2>Filter expenses</h2>
+        <h5>Filter expenses</h5>
       </div>
     </div>
 
@@ -75,37 +73,37 @@
                 (click)="navigateToBothPaidAndOwedPage()">Filter by both</button>
       </div>
     </div>
-    <div class="row">
-      <div class="col-10">
-        <mat-slide-toggle
-          class="float-right"
-          [color]="'primary'"
-          [(ngModel)]="isPayeeExcluded"
-          (ngModelChange)="load()">
-          Exclude payee from owee column
-        </mat-slide-toggle>
-      </div>
-      <div class="col-2 p-0">
-        <button [disabled]="travelers.length < 1"
-                mat-raised-button color="primary"
-                matTooltip="Display final expenses"
+    <div class="float-right row">
+      <mat-slide-toggle
+        class="mr-2"
+        [color]="'primary'"
+        [(ngModel)]="isPayeeExcluded"
+        (ngModelChange)="load()">
+        Exclude payee from owee column
+      </mat-slide-toggle>
+      <button [disabled]="travelers.length < 1"
+              mat-raised-button color="primary"
+              matTooltip="Display final expenses"
+              [matTooltipShowDelay]="1000"
+              class="expenses"
+              (click)="navigateToDisplayAllPage()">Display calculated expenses</button>
+    </div>
+    <div class="float-right w-100 mt-1">
+      <div class="d-flex">
+        <button class="mr-1 add-traveler" mat-raised-button color="primary"
+                matTooltip="Add traveler"
                 [matTooltipShowDelay]="1000"
-                class="expenses"
-                (click)="navigateToDisplayAllPage()">Display calculated expenses</button>
+                (click)="addTraveler()">Add traveler</button>
+        <button class="add-activity" mat-raised-button color="primary"
+                matTooltip="Add activity"
+                [matTooltipShowDelay]="1000"
+                [disabled]="travelers.length < 1"
+                (click)="addActivity()">Add activity</button>
+
       </div>
     </div>
   </div>
-  <div>
-    <button class="float-right add-activity" mat-raised-button color="primary"
-            matTooltip="Add activity"
-            [matTooltipShowDelay]="1000"
-            [disabled]="travelers.length < 1"
-            (click)="addActivity()">Add activity</button>
-    <button class="float-right mr-1" mat-raised-button color="primary"
-            matTooltip="Add traveler"
-            [matTooltipShowDelay]="1000"
-            (click)="addTraveler()">Add traveler</button>
-  </div>
+
   <div class="report">
     <table class="table" *ngIf="!!activities.length">
       <tr>
@@ -161,7 +159,7 @@
                    [matTooltip]="'View activity'"
                    [matTooltipShowDelay]="1000"
                    [matTooltipPosition]="'above'"></i></span>
-              <span *ngIf="activity" (click)="editActivity(activity?._id)">
+              <span *ngIf="activity" (click)="editActivity(activity)">
                 <i class="mr-2 fa-solid fa-pen-to-square"
                    [matTooltip]="'Edit activity'"
                    [matTooltipShowDelay]="1000"
