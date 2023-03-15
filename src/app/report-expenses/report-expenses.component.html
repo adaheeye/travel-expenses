@@ -15,7 +15,7 @@
                       matTooltip="Paid by only"
                       [matTooltipShowDelay]="1000"
                       [(ngModel)]="selectedPaidBy">
-            <mat-option *ngFor="let traveler of travelers" [value]="traveler.firstName">
+            <mat-option *ngFor="let traveler of travelers" [value]="traveler._id">
               {{traveler.firstName}} {{traveler.lastName}}
             </mat-option>
           </mat-select>
@@ -37,8 +37,8 @@
                       matTooltip="Owed by only"
                       [matTooltipShowDelay]="1000"
                       [(ngModel)]="selectedOwedBy">
-            <mat-option *ngFor="let traveler of travelers" [value]="traveler">
-              {{traveler}}
+            <mat-option *ngFor="let traveler of travelers" [value]="traveler._id">
+              {{traveler.firstName}} {{traveler.lastName}}
             </mat-option>
           </mat-select>
         </mat-form-field>
@@ -60,7 +60,7 @@
                       [matTooltipShowDelay]="1000"
                       [(ngModel)]="selectedBothPaidByAndOwedBy">
             <mat-option *ngFor="let traveler of travelers" [value]="traveler._id">
-              {{traveler.firstName + ' ' + traveler.lastName}}
+              {{traveler.firstName}} {{traveler.lastName}}
             </mat-option>
           </mat-select>
         </mat-form-field>
@@ -140,7 +140,7 @@
             <span>{{activity.activityDate | date:'longDate'}}</span>
           </td>
           <td style="width: 10%">
-            <span>{{activity.paidBy.firstName | titlecase}}</span>
+            <span>{{activity.paidBy.firstName | titlecase}} {{activity.paidBy.lastName | titlecase}}</span>
           </td>
           <td style="width: 25%">
             <span *ngIf="activity.owedBy">{{getOwedBy(activity.owedBy)}}</span>

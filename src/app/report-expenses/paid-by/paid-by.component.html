@@ -1,7 +1,7 @@
 <app-header *ngIf="!passToComponent" [title]="'Expenses report activities'" [isLink]="true"></app-header>
 
 <div class="container-fluid content">
-  <h1 class="title-report">Activities/food paid by {{selectedTraveler}}</h1>
+  <h1 class="title-report">Activities/food paid by {{selectedTraveler?.firstName | titlecase}} {{selectedTraveler?.lastName | titlecase}}</h1>
   <div class="report">
     <table class="table" *ngIf="!!expenses.length">
       <tr>
@@ -30,7 +30,7 @@
       <ng-container *ngFor="let expense of expenseWithOwedAmounts">
         <tr>
           <td>
-            <a (click)="openLink(expense)">{{expense.activityName}}</a>
+            <a (click)="openLink(expense)">{{expense.activityName | titlecase}}</a>
           </td>
           <td>
             <span>{{expense.amount | currency: 'CAD':'symbol-narrow':'1.2-2': 'en' }}</span>
@@ -39,13 +39,13 @@
             <span>{{expense.expensesWithOwedAmount | currency: 'CAD':'symbol-narrow':'1.2-2': 'en' }}</span>
           </td>
           <td>
-            <span class="font-weight-bold">{{expense.paidBy}}</span>
+            <span class="font-weight-bold">{{expense.paidBy.firstName | titlecase}} {{expense.paidBy.lastName | titlecase}}</span>
           </td>
           <td>
-            <span *ngIf="expense.owedBy">{{expense.owedBy.join(', ')}}</span>
+            <span class="font-weight-bold" *ngIf="expense.owedBy">{{getOwedBy(expense.owedBy)}}</span>
           </td>
           <td>
-            <span>{{expense.activityDate}}</span>
+            <span>{{expense.activityDate | date:'longDate'}}</span>
           </td>
           <td>
             <span *ngIf="expense && expense.details?.length"><i class="fas fa-comment-alt" [matTooltip]="expense.details || ''"></i></span>
@@ -54,10 +54,10 @@
       </ng-container>
     </table>
     <div class="my-3">
-      <h3 class="total">Total spent amount by {{selectedTraveler}} is <span class="font-weight-bold">{{totalPaidAmount | currency: 'CAD':'symbol-narrow':'1.2-2': 'en'}}</span></h3>
+      <h3 class="total">Total spent amount by {{selectedTraveler?.firstName | titlecase}} {{selectedTraveler?.lastName | titlecase}} is <span class="font-weight-bold">{{totalPaidAmount | currency: 'CAD':'symbol-narrow':'1.2-2': 'en'}}</span></h3>
     </div>
     <div class="my-3">
-      <h3 class="total">Total amount they owe {{selectedTraveler}}:  <span class="font-weight-bold">{{totalExpensesWithOwedAmount | currency: 'CAD':'symbol-narrow':'1.2-2': 'en'}}</span></h3>
+      <h3 class="total">Total amount they owe {{selectedTraveler?.firstName | titlecase}} {{selectedTraveler?.lastName | titlecase}}:  <span class="font-weight-bold">{{totalExpensesWithOwedAmount | currency: 'CAD':'symbol-narrow':'1.2-2': 'en'}}</span></h3>
     </div>
   </div>
 </div>

@@ -15,7 +15,6 @@ $is-dark-theme:   map.get($color-config, 'is-dark');
 
 // To read typography values from a theme, you can use the get-typography-config Sass function. See the Typography guide
 // for more information about the typography config data structure and for APIs for reading values from this config.
-// TODO
 $typography-config: mat.get-typography-config($my-theme);
 $my-font-family: mat.font-family($typography-config);
 

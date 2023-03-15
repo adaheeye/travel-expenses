@@ -18,7 +18,7 @@ export class PaidByAndOwedByComponent implements OnInit, OnDestroy {
   public selectedTraveler: Traveler | null = null;
   private isExpensesWithOwedAmountEventFromPaidByCompSet = false;
   private isExpensesWithOwedAmountEventFromOwedByCompSet = false;
-  private travelers: Traveler[] = [];
+  private travelers: Traveler[] = []; // TODO unused
   private ngUnsubscribe: Subject<void> = new Subject();
 
   constructor(private route: ActivatedRoute,
@@ -34,8 +34,9 @@ export class PaidByAndOwedByComponent implements OnInit, OnDestroy {
         }),
         mergeMap((paramMap) => {
           console.log(paramMap.get('travelerId'));
-          if (paramMap.get('travelerId')) {
-            return this.travelerService.findById(Number(paramMap.get('travelerId')))
+          const travelerId = paramMap.get('travelerId');
+          if (travelerId) {
+            return this.travelerService.findById(travelerId)
           } else {
             return of(null)
           }

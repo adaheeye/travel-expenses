@@ -9,9 +9,9 @@ import {DisplayAllExpensesComponent} from './report-expenses/display-all-expense
 
 const routes: Routes = [
   { path: '', component: ReportExpensesComponent},
-  { path: 'owed-by/:traveler', component: OwedByComponent },
-  { path: 'paid-by/:traveler', component: PaidByComponent },
-  { path: 'paid-by-and-owed-by/:traveler', component: PaidByAndOwedByComponent },
+  { path: 'owed-by/:travelerId', component: OwedByComponent },
+  { path: 'paid-by/:travelerId', component: PaidByComponent },
+  { path: 'paid-by-and-owed-by/:travelerId', component: PaidByAndOwedByComponent },
   { path: 'display-expense/:id', component: DisplayExpenseComponent },
   { path: 'display-all-expenses', component: DisplayAllExpensesComponent },
   { path: '**', component: ReportExpensesComponent },  // Wildcard route for a home page

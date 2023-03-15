@@ -27,7 +27,7 @@ export class TravelerService {
     }));
   }
 
-  public findById(id: number): Observable<Traveler> {
+  public findById(id: string): Observable<Traveler> {
     return this.http.get<Traveler>(`${this.resourceUrl}/traveler/${id}`).pipe(map((data: Traveler) => {
       return new Traveler(data);
     }));

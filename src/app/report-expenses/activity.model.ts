@@ -8,6 +8,7 @@ export class Activity {
   public paidBy: Traveler;
   public owedBy: Traveler[] = [];
   public details: string = '';
+  public isPayeeInclude: boolean = true; // TODO this will be used
 
   constructor(untyped?: any) {
     if (!untyped) {

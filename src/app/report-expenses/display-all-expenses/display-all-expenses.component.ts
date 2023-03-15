@@ -112,7 +112,7 @@ export class DisplayAllExpensesComponent implements OnInit, OnDestroy {
                 .reduce((accumulator, current) => accumulator + current);
             }
             if (totalExpensesWithOwedAmountForPaidBy > 0 || totalExpensesWithOwedAmountForOwedBy > 0) {
-              this.expenseWithDetailsMap.set(traveler, (totalExpensesWithOwedAmountForPaidBy - totalExpensesWithOwedAmountForOwedBy))
+              this.expenseWithDetailsMap.set(`${traveler.firstName || ''} ${traveler.lastName || ''}`, (totalExpensesWithOwedAmountForPaidBy - totalExpensesWithOwedAmountForOwedBy))
             }
           });
         }

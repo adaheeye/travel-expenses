@@ -8,6 +8,7 @@ import { ExpenseWithOwedAmount } from '../expenseWithOwedAmaount.model';
 import { AppService } from "../app.service";
 import { Traveler } from "../traveler.model";
 import {TravelerService} from "../traveler.service";
+import {TitleCasePipe} from "@angular/common";
 
 @Component({
   selector: 'paid-by',
@@ -28,6 +29,7 @@ export class PaidByComponent implements OnInit, OnDestroy {
 
   constructor(private reportExpensesService: ActivityService,
               private appService: AppService,
+              private titleCasePipe: TitleCasePipe,
               private travelerService: TravelerService,
               private route: ActivatedRoute,
               private _router: Router) {
@@ -41,9 +43,9 @@ export class PaidByComponent implements OnInit, OnDestroy {
           return this.route.paramMap;
         }),
         mergeMap((paramMap) => {
-          console.log(paramMap.get('travelerId'));
-          if (paramMap.get('travelerId')) {
-            return this.travelerService.findById(Number(paramMap.get('travelerId')))
+          const travelerId = paramMap.get('travelerId');
+          if (travelerId) {
+            return this.travelerService.findById(travelerId)
           } else {
             return of(null)
           }
@@ -62,6 +64,10 @@ export class PaidByComponent implements OnInit, OnDestroy {
 
   public openLink(expense: ExpenseWithOwedAmount): void {
     this._router.navigate(['display-expense', expense.id], { replaceUrl: true }).then();
+  }
+
+  public getOwedBy(owedBy: Traveler[]): string {
+    return owedBy.map((oB) => this.titleCasePipe.transform(oB.firstName)).join(', ');
   }
 
   private getExpenses() {

@@ -23,9 +23,9 @@ import {YesOrNoDialogComponent} from "./yes-or-no-dialog/yes-or-no-dialog.compon
 export class ReportExpensesComponent implements OnInit, OnDestroy {
   public activities: Activity[] = [];
   public travelers: Traveler[] = []
-  public selectedPaidBy: Traveler | null = null;
-  public selectedOwedBy: Traveler | null = null;
-  public selectedBothPaidByAndOwedBy: Traveler | null = null;
+  public selectedPaidBy: number | null = null;
+  public selectedOwedBy: number | null = null;
+  public selectedBothPaidByAndOwedBy: number | null = null;
   public isPayeeExcluded = true;
   private ngUnsubscribe: Subject<void> = new Subject();
 
