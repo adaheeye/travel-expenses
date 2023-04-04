@@ -1,13 +1,13 @@
 @use 'sass:map';
 @use '@angular/material' as mat;
-@import "../node_modules/@angular/material/theming";
-@import "theme";
+@import '../node_modules/@angular/material/theming';
+@import 'theme';
 
 /* You can add global styles to this file, and also import other style files */
 
 // To read color values from a theme, you can use the get-color-config Sass function. This function returns a Sass map
 // containing the theme's primary, accent, and warn palettes, as well as a flag indicating whether dark mode is set.
-$color-config:    mat.get-color-config($my-theme);
+$color-config: mat.get-color-config($my-theme);
 $primary: map.get($color-config, 'primary');
 $accent:  map.get($color-config, 'accent');
 $warn:    map.get($color-config, 'warn');
@@ -19,9 +19,14 @@ $typography-config: mat.get-typography-config($my-theme);
 $my-font-family: mat.font-family($typography-config);
 
 html, body, h1, h2, h3, h4, h5, h6 {
-    //height: 100%;
     font-family: 'Prompt', sans-serif !important;
 }
+
+body {
+  margin: 0;
+}
+
+// The following 4 blocks allow us to have the footer always at bottom even when there's no enough content on the page.
 html, body {
   height: 100%;
 }
@@ -30,10 +35,6 @@ app-root {
   height: 100%;
   display: flex;
   flex-direction: column;
-}
-
-body {
-  margin: 0;
 }
 
 .main {
@@ -76,5 +77,5 @@ button {
 }
 
 .table td, .table th  {
-  border-color: mat.get-color-from-palette($primary, 200, 0.4) !important;;
+  border-color: mat.get-color-from-palette($primary, 200, 0.4) !important;
 }
